@@ -22,9 +22,16 @@ function initializeAdminApp() {
     return initializeApp();
   }
 
-  return initializeApp({
-    credential: cert(serviceAccount),
-  });
+  try {
+    return initializeApp({
+      credential: cert(serviceAccount),
+    });
+  } catch (error) {
+    console.error("Firebase Admin initialization failed. Invalid SERVICE_ACCOUNT_JSON:", error);
+    // Fallback to default initialization so the module doesn't crash, 
+    // it will just fail gracefully during verifyIdToken later.
+    return initializeApp();
+  }
 }
 
 const adminApp = initializeAdminApp();
