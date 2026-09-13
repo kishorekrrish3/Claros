@@ -3,6 +3,7 @@
 import { CurrencyCode } from "@/lib/constants";
 import { MonthNavigator } from "./month-navigator";
 import { SafeToSpendHero } from "./safe-to-spend-hero";
+import { QuickEntryBar } from "./quick-entry-bar";
 import { MetricGrid } from "./metric-grid";
 import { BudgetPace } from "./budget-pace";
 import { WeekMiniChart, DailySpending } from "./week-mini-chart";
@@ -11,9 +12,17 @@ import { RecentTransactions, Transaction } from "./recent-transactions";
 import { GoalPreview } from "./goal-preview";
 import { CategorySpending, GoalProjection } from "@/lib/finance/types";
 
+interface Category {
+  id: string;
+  name: string;
+  color: string;
+  icon: string | null;
+}
+
 interface OverviewContentProps {
   currentMonth: string;
   currency: CurrencyCode;
+  categories?: Category[];
   
   // Calculated metrics
   safeToSpendAmount: number;
@@ -39,6 +48,7 @@ interface OverviewContentProps {
 export function OverviewContent({
   currentMonth,
   currency,
+  categories = [],
   safeToSpendAmount,
   safeToSpendRemaining,
   safeToSpendExplanation,
@@ -66,6 +76,11 @@ export function OverviewContent({
           remaining={safeToSpendRemaining}
           explanation={safeToSpendExplanation}
           status={safeToSpendStatus}
+          currency={currency}
+        />
+
+        <QuickEntryBar 
+          categories={categories}
           currency={currency}
         />
         
@@ -116,3 +131,4 @@ export function OverviewContent({
     </div>
   );
 }
+

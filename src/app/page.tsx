@@ -149,6 +149,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
     <OverviewContent
       currentMonth={currentMonth}
       currency={currency}
+      categories={categories}
       
       safeToSpendAmount={safeToSpendResult.amount}
       safeToSpendRemaining={safeToSpendResult.remaining}
