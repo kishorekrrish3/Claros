@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd5d13bf-32d1-4e7a-8538-6bd353b3f579" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/command-palette/command-palette.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/command-palette/command-palette.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/goals/goal-form-dialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/goals/goal-form-dialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/layout/app-shell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/layout/app-shell.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/layout/mobile-nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/layout/mobile-nav.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/overview/category-summary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/overview/category-summary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/overview/goal-preview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/overview/goal-preview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/overview/quick-entry-bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/overview/quick-entry-bar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/settings/import-wizard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/settings/import-wizard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/settings/settings-content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/settings/settings-content.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/lib/validators/goal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/lib/validators/goal.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

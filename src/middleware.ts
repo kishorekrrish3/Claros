@@ -7,13 +7,6 @@ const SECRET_KEY = process.env.AUTH_SECRET || process.env.TURSO_AUTH_TOKEN?.slic
 const encodedKey = new TextEncoder().encode(SECRET_KEY);
 
 export async function middleware(request: NextRequest) {
-  const password = process.env.APP_PASSWORD;
-
-  // If no password configured in environment, allow all requests
-  if (!password) {
-    return NextResponse.next();
-  }
-
   const { pathname } = request.nextUrl;
   const isLoginPage = pathname === "/login";
   const isPublicFile = pathname.startsWith("/_next") || pathname.startsWith("/api") || pathname.includes(".");
@@ -30,7 +23,7 @@ export async function middleware(request: NextRequest) {
       const { payload } = await jwtVerify(token, encodedKey, {
         algorithms: ["HS256"],
       });
-      isValid = payload.authenticated === true;
+      isValid = payload.authenticated === true && !!payload.uid;
     } catch {
       isValid = false;
     }

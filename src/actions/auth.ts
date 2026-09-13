@@ -2,27 +2,24 @@
 
 import { redirect } from "next/navigation";
 import { setSessionCookie, clearSessionCookie } from "@/lib/auth";
+import { adminAuth } from "@/lib/firebase/admin";
 
 export interface AuthResult {
   success: boolean;
   error?: string;
 }
 
-export async function loginAction(password: string): Promise<AuthResult> {
-  const expectedPassword = process.env.APP_PASSWORD;
-
-  if (!expectedPassword) {
-    // If no password set in .env, accept any password or allow access
-    await setSessionCookie();
+export async function loginAction(idToken: string): Promise<AuthResult> {
+  try {
+    const decodedToken = await adminAuth.verifyIdToken(idToken);
+    const uid = decodedToken.uid;
+    
+    await setSessionCookie(uid);
     return { success: true };
+  } catch (error) {
+    console.error("Firebase ID Token verification failed:", error);
+    return { success: false, error: "Authentication failed. Invalid token." };
   }
-
-  if (password !== expectedPassword) {
-    return { success: false, error: "Incorrect password. Please try again." };
-  }
-
-  await setSessionCookie();
-  return { success: true };
 }
 
 export async function logoutAction(): Promise<void> {
