@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
+import { BudgetManager } from "./budget-manager";
 import { CategoryManager } from "./category-manager";
 import { ImportWizard } from "./import-wizard";
 import { PdfReport } from "./pdf-report";
@@ -32,9 +33,18 @@ import { usePWA } from "@/components/pwa/pwa-provider";
 interface SettingsContentProps {
   settings: UserSettings | null;
   categories: Category[];
+  incomeSources: any[];
+  fixedExpenses: any[];
+  savingsAllocations: any[];
 }
 
-export function SettingsContent({ settings, categories }: SettingsContentProps) {
+export function SettingsContent({ 
+  settings, 
+  categories,
+  incomeSources,
+  fixedExpenses,
+  savingsAllocations
+}: SettingsContentProps) {
   const { theme, setTheme } = useTheme();
   const [isUpdating, setIsUpdating] = useState(false);
   const { isStandalone, installApp } = usePWA();
@@ -79,8 +89,9 @@ export function SettingsContent({ settings, categories }: SettingsContentProps) 
       </div>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
+        <TabsList className="grid w-full grid-cols-4 mb-8">
           <TabsTrigger value="general">General</TabsTrigger>
+          <TabsTrigger value="budget">Budget</TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>
           <TabsTrigger value="data">Data & Export</TabsTrigger>
         </TabsList>
@@ -234,6 +245,15 @@ export function SettingsContent({ settings, categories }: SettingsContentProps) 
               </div>
             </section>
           </div>
+        </TabsContent>
+
+        <TabsContent value="budget">
+          <BudgetManager 
+            incomeSources={incomeSources}
+            fixedExpenses={fixedExpenses}
+            savingsAllocations={savingsAllocations}
+            currency={settings?.currency || "INR"}
+          />
         </TabsContent>
 
         <TabsContent value="categories">

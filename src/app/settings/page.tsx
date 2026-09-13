@@ -1,12 +1,34 @@
-import { getUserSettings } from "@/actions/budget";
-import { getCategories } from "@/actions/budget";
+import { 
+  getUserSettings, 
+  getCategories,
+  getIncomeSources,
+  getFixedExpenses,
+  getSavingsAllocations
+} from "@/actions/budget";
 import { SettingsContent } from "@/components/settings/settings-content";
 
 export default async function SettingsPage() {
-  const [settings, categories] = await Promise.all([
+  const [
+    settings, 
+    categories, 
+    incomeSources, 
+    fixedExpenses, 
+    savingsAllocations
+  ] = await Promise.all([
     getUserSettings(),
     getCategories(),
+    getIncomeSources(),
+    getFixedExpenses(),
+    getSavingsAllocations(),
   ]);
 
-  return <SettingsContent settings={settings} categories={categories} />;
+  return (
+    <SettingsContent 
+      settings={settings} 
+      categories={categories} 
+      incomeSources={incomeSources}
+      fixedExpenses={fixedExpenses}
+      savingsAllocations={savingsAllocations}
+    />
+  );
 }
