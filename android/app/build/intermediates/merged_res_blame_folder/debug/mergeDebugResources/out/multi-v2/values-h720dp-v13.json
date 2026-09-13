@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.claros.finance.app-mergeDebugResources-36:/values-h720dp-v13/values-h720dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\kidkr\\.gradle\\caches\\8.13\\transforms\\50ef18cf35f6eb8369ec672ef9aa26cf\\transformed\\appcompat-1.7.0\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "66",
+                        "endOffsets": "117"
+                    }
+                }
+            ]
+        }
+    ]
+}

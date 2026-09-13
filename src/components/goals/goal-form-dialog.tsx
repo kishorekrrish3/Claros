@@ -111,7 +111,11 @@ export function GoalFormDialog({ open, onOpenChange, goal }: GoalFormDialogProps
         await updateGoal(goal.id, data);
         toast.success("Goal updated");
       } else {
-        await createGoal(data);
+        await createGoal({
+          ...data,
+          status: "active",
+          color: data.color || COLORS[0],
+        });
         toast.success("Goal created");
       }
       onOpenChange(false);

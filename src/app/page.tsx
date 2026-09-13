@@ -83,18 +83,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
 
   // 4. Calculate Category Spending
   const mappedCategories = categories.map(c => ({ id: c.id, name: c.name, color: c.color, icon: c.icon }));
-  const categorySpendingRaw = calculateCategorySpending(transactions, mappedCategories);
-  
-  // Format for component
-  const categorySpending = categorySpendingRaw.map(c => ({
-    id: c.categoryId,
-    name: c.categoryName,
-    spent: c.amount,
-    budget: 0, // Assuming we don't have per-category budgets yet
-    color: c.categoryColor,
-    percentUsed: 0, 
-    status: "healthy" as const
-  }));
+  const categorySpending = calculateCategorySpending(transactions, mappedCategories);
 
   // 5. Recent Transactions
   const recentTransactions: Transaction[] = rawTransactions.slice(0, 5).map(t => ({

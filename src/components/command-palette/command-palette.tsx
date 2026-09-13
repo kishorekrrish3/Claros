@@ -38,13 +38,13 @@ export function CommandPalette({ open, setOpen, onQuickAdd }: CommandPaletteProp
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen(!open);
       }
     };
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [setOpen]);
+  }, [open, setOpen]);
 
   const runCommand = (command: () => void) => {
     setOpen(false);

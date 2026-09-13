@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#18181B"
+        android:pathData="M54,54m-48,0a48,48 0 1,1 96,0a48,48 0 1,1 -96,0"/>
+
+    <!-- Indigo Arc / Modern C -->
+    <path
+        android:fillColor="#6366F1"
+        android:pathData="M 68,36 
+                         C 61,28 47,28 39,36 
+                         C 29,46 29,62 39,72 
+                         C 47,80 61,80 68,72 
+                         L 61,65 
+                         C 57,69 48,69 44,65 
+                         C 38,59 38,49 44,43 
+                         C 48,39 57,39 61,43 
+                         Z"/>
+
+    <!-- Cyan Accent Dot -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M70,54m-4.5,0a4.5,4.5 0 1,1 9,0a4.5,4.5 0 1,1 -9,0"/>
+</vector>

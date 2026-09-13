@@ -94,11 +94,10 @@ export function ImportWizard({ categories }: ImportWizardProps) {
     setIsImporting(true);
     try {
       const transactionsToImport = parsedData.map(row => ({
-        date: row[mapping.date],
+        date: String(row[mapping.date] || ""),
         amount: parseFloat(row[mapping.amount]) || 0,
-        merchantName: row[mapping.merchant],
-        categoryName: mapping.category ? row[mapping.category] : "",
-        type: mapping.type ? row[mapping.type] : "expense", // default to expense
+        merchant: String(row[mapping.merchant] || "Unknown"),
+        type: mapping.type ? String(row[mapping.type]) : "expense",
       }));
 
       await importTransactionsFromCSV(transactionsToImport);

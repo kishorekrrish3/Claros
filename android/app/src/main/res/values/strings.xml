@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Claros</string>
+    <string name="server_url">https://claros-cyan.vercel.app/</string>
+    <string name="no_internet_title">Connection Lost</string>
+    <string name="no_internet_desc">Unable to reach Claros. Please check your internet connection and try again.</string>
+    <string name="retry">Retry Connection</string>
+</resources>

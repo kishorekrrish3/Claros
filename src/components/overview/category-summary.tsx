@@ -13,7 +13,7 @@ interface CategorySummaryProps {
 
 export function CategorySummary({ categories, currency, limit = 5 }: CategorySummaryProps) {
   const displayCategories = categories.slice(0, limit);
-  const maxAmount = Math.max(...categories.map(c => c.spent), 1); // fallback to 1 to avoid /0
+  const maxAmount = Math.max(...categories.map(c => c.amount), 1); // fallback to 1 to avoid /0
   
   if (categories.length === 0) {
     return (

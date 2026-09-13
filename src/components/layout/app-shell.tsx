@@ -12,7 +12,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <MobileNav />
-      {/* TODO: CommandPalette and KeyboardShortcuts hook will be mounted here */}
     </div>
   );
 }
+

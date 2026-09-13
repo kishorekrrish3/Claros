@@ -16,9 +16,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { createTransaction } from "@/actions/transactions";
+import { createTransaction, deleteTransaction } from "@/actions/transactions";
 import { toast } from "sonner";
 import { format, subDays } from "date-fns";
+import { triggerHaptic } from "@/lib/native/platform";
 
 interface Category {
   id: string;
@@ -57,6 +58,7 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAddAmount = (addVal: number) => {
+    triggerHaptic("light");
     const current = parseFloat(amount) || 0;
     setAmount((current + addVal).toString());
   };
@@ -75,11 +77,13 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
     e.preventDefault();
 
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+      triggerHaptic("warning");
       toast.error("Please enter a valid amount");
       return;
     }
 
     if (!merchant.trim()) {
+      triggerHaptic("warning");
       toast.error("Please enter what you spent on");
       return;
     }
@@ -103,12 +107,30 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
       });
 
       if (!res.success) {
+        triggerHaptic("error");
         toast.error(res.error || "Failed to log entry");
         return;
       }
 
-      toast.success(`Logged ${currency} ${amount} for ${merchant.trim()}`, {
+      const createdTxId = res.data?.id;
+      const loggedMerchant = merchant.trim();
+      triggerHaptic("success");
+      toast.success(`Logged ${currency} ${amount} for ${loggedMerchant}`, {
         description: `${type.toUpperCase()} · ${pmLabel}`,
+        action: createdTxId
+          ? {
+              label: "Undo",
+              onClick: async () => {
+                triggerHaptic("medium");
+                try {
+                  await deleteTransaction(createdTxId);
+                  toast.info(`Removed ${loggedMerchant}`);
+                } catch {
+                  toast.error("Failed to remove entry");
+                }
+              },
+            }
+          : undefined,
       });
 
       // Reset form fields but keep selected category and payment method
@@ -118,6 +140,7 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
       setIsEssential(false);
       setSatisfaction(null);
     } catch (err) {
+      triggerHaptic("error");
       toast.error("Failed to log entry");
     } finally {
       setIsSubmitting(false);
@@ -143,7 +166,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
         <div className="flex items-center gap-1 p-1 bg-muted/60 rounded-lg text-xs font-medium self-start sm:self-auto">
           <button
             type="button"
-            onClick={() => setType("expense")}
+            onClick={() => {
+              triggerHaptic("selection");
+              setType("expense");
+            }}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition-all ${
               type === "expense"
                 ? "bg-background text-rose-600 dark:text-rose-400 shadow-xs font-semibold"
@@ -154,7 +180,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
           </button>
           <button
             type="button"
-            onClick={() => setType("income")}
+            onClick={() => {
+              triggerHaptic("selection");
+              setType("income");
+            }}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition-all ${
               type === "income"
                 ? "bg-background text-emerald-600 dark:text-emerald-400 shadow-xs font-semibold"
@@ -165,7 +194,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
           </button>
           <button
             type="button"
-            onClick={() => setType("transfer")}
+            onClick={() => {
+              triggerHaptic("selection");
+              setType("transfer");
+            }}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition-all ${
               type === "transfer"
                 ? "bg-background text-blue-600 dark:text-blue-400 shadow-xs font-semibold"
@@ -185,6 +217,7 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
               type="number"
               step="0.01"
               min="0"
+              inputMode="decimal"
               placeholder="0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -199,6 +232,7 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
 
           <Input
             type="text"
+            enterKeyHint="next"
             placeholder={
               type === "expense"
                 ? "Merchant / Item (e.g. Swiggy, Uber, Supermarket)"
@@ -247,7 +281,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                 <button
                   key={c.id}
                   type="button"
-                  onClick={() => setSelectedCategoryId(c.id)}
+                  onClick={() => {
+                    triggerHaptic("selection");
+                    setSelectedCategoryId(c.id);
+                  }}
                   className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all shrink-0 border ${
                     isSelected
                       ? "border-primary bg-primary/10 text-primary shadow-xs"
@@ -274,7 +311,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
               <button
                 key={pm.id}
                 type="button"
-                onClick={() => setPaymentMethod(pm.id)}
+                onClick={() => {
+                  triggerHaptic("selection");
+                  setPaymentMethod(pm.id);
+                }}
                 className={`text-xs px-2.5 py-1 rounded-md transition-all font-medium border ${
                   paymentMethod === pm.id
                     ? "border-primary/40 bg-primary/10 text-primary font-semibold"
@@ -288,7 +328,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
 
           <button
             type="button"
-            onClick={() => setExpanded(!expanded)}
+            onClick={() => {
+              triggerHaptic("light");
+              setExpanded(!expanded);
+            }}
             className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 ml-auto"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
@@ -308,7 +351,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                 <div className="flex items-center gap-1">
                   <button
                     type="button"
-                    onClick={() => setDateSelection("today")}
+                    onClick={() => {
+                      triggerHaptic("selection");
+                      setDateSelection("today");
+                    }}
                     className={`flex-1 text-xs py-1.5 rounded-md border text-center font-medium transition-all ${
                       dateSelection === "today"
                         ? "border-primary bg-primary/10 text-primary font-semibold"
@@ -319,7 +365,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setDateSelection("yesterday")}
+                    onClick={() => {
+                      triggerHaptic("selection");
+                      setDateSelection("yesterday");
+                    }}
                     className={`flex-1 text-xs py-1.5 rounded-md border text-center font-medium transition-all ${
                       dateSelection === "yesterday"
                         ? "border-primary bg-primary/10 text-primary font-semibold"
@@ -330,7 +379,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setDateSelection("custom")}
+                    onClick={() => {
+                      triggerHaptic("selection");
+                      setDateSelection("custom");
+                    }}
                     className={`flex-1 text-xs py-1.5 rounded-md border text-center font-medium transition-all ${
                       dateSelection === "custom"
                         ? "border-primary bg-primary/10 text-primary font-semibold"
@@ -356,7 +408,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
-                    onClick={() => setSatisfaction(satisfaction === "love" ? null : "love")}
+                    onClick={() => {
+                      triggerHaptic("selection");
+                      setSatisfaction(satisfaction === "love" ? null : "love");
+                    }}
                     className={`flex-1 text-xs py-1.5 px-2 rounded-md border flex items-center justify-center gap-1 font-medium transition-all ${
                       satisfaction === "love"
                         ? "border-emerald-500 bg-emerald-500/10 text-emerald-600 font-semibold"
@@ -367,7 +422,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSatisfaction(satisfaction === "fine" ? null : "fine")}
+                    onClick={() => {
+                      triggerHaptic("selection");
+                      setSatisfaction(satisfaction === "fine" ? null : "fine");
+                    }}
                     className={`flex-1 text-xs py-1.5 px-2 rounded-md border flex items-center justify-center gap-1 font-medium transition-all ${
                       satisfaction === "fine"
                         ? "border-blue-500 bg-blue-500/10 text-blue-600 font-semibold"
@@ -378,7 +436,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSatisfaction(satisfaction === "regret" ? null : "regret")}
+                    onClick={() => {
+                      triggerHaptic("selection");
+                      setSatisfaction(satisfaction === "regret" ? null : "regret");
+                    }}
                     className={`flex-1 text-xs py-1.5 px-2 rounded-md border flex items-center justify-center gap-1 font-medium transition-all ${
                       satisfaction === "regret"
                         ? "border-rose-500 bg-rose-500/10 text-rose-600 font-semibold"
@@ -395,6 +456,7 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
               <Input
                 type="text"
+                enterKeyHint="done"
                 placeholder="Notes or tags (e.g. #dining, #groceries, team lunch)"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -408,7 +470,10 @@ export function QuickEntryBar({ categories, currency }: QuickEntryBarProps) {
                 <Switch
                   id="essential-toggle-quick"
                   checked={isEssential}
-                  onCheckedChange={setIsEssential}
+                  onCheckedChange={(val) => {
+                    triggerHaptic("light");
+                    setIsEssential(val);
+                  }}
                 />
               </div>
             </div>

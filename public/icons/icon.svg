@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#4f46e5" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Base container -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)"/>
+  <rect width="508" height="508" x="2" y="2" rx="126" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+
+  <!-- Glowing emblem container -->
+  <g filter="url(#shadow)">
+    <!-- Modern geometric 'C' with dynamic financial crest -->
+    <path d="M 330 160 
+             C 290 120, 210 120, 165 165 
+             C 115 215, 115 297, 165 347 
+             C 210 392, 290 392, 330 352
+             L 290 312
+             C 265 337, 215 337, 192 314
+             C 162 284, 162 228, 192 198
+             C 215 175, 265 175, 290 200
+             Z" 
+          fill="url(#brandGrad)"/>
+
+    <!-- Accent spark dot signifying financial clarity / today's safe spend -->
+    <circle cx="345" cy="256" r="26" fill="#38bdf8"/>
+  </g>
+</svg>

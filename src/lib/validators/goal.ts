@@ -20,6 +20,6 @@ export const addContributionSchema = z.object({
   note: z.string().max(500).nullable().optional(),
 });
 
-export type CreateGoalInput = z.infer<typeof createGoalSchema>;
-export type UpdateGoalInput = z.infer<typeof updateGoalSchema>;
-export type AddContributionInput = z.infer<typeof addContributionSchema>;
+export type CreateGoalInput = z.input<typeof createGoalSchema>;
+export type UpdateGoalInput = z.input<typeof updateGoalSchema>;
+export type AddContributionInput = z.input<typeof addContributionSchema>;

@@ -1,0 +1,41 @@
+com.claros.finance.app-savedstate-1.2.1-0 C:\Users\kidkr\.gradle\caches\8.13\transforms\04b3f3034cc72ae01f7b10d7d880e1ce\transformed\savedstate-1.2.1\res
+com.claros.finance.app-startup-runtime-1.1.1-1 C:\Users\kidkr\.gradle\caches\8.13\transforms\0e0f7e835fc232ef2daa534c59c2bce1\transformed\startup-runtime-1.1.1\res
+com.claros.finance.app-cardview-1.0.0-2 C:\Users\kidkr\.gradle\caches\8.13\transforms\159d98d5bb832147c95112cdd26de289\transformed\cardview-1.0.0\res
+com.claros.finance.app-viewpager2-1.0.0-3 C:\Users\kidkr\.gradle\caches\8.13\transforms\1cef2ad5a894f706bd0e9314579e61bf\transformed\viewpager2-1.0.0\res
+com.claros.finance.app-core-ktx-1.13.1-4 C:\Users\kidkr\.gradle\caches\8.13\transforms\2467fb21a55df28d969bbebb6e76e203\transformed\core-ktx-1.13.1\res
+com.claros.finance.app-lifecycle-process-2.6.2-5 C:\Users\kidkr\.gradle\caches\8.13\transforms\2d192e0dd308ce1844fc8f10d1edb286\transformed\lifecycle-process-2.6.2\res
+com.claros.finance.app-webkit-1.11.0-6 C:\Users\kidkr\.gradle\caches\8.13\transforms\2de07abb99b305d6b314d2f0e25fac9a\transformed\webkit-1.11.0\res
+com.claros.finance.app-core-splashscreen-1.0.1-7 C:\Users\kidkr\.gradle\caches\8.13\transforms\3f9287a166348e408cf39e88bea55d84\transformed\core-splashscreen-1.0.1\res
+com.claros.finance.app-lifecycle-livedata-2.6.2-8 C:\Users\kidkr\.gradle\caches\8.13\transforms\4bce8ac5f92b753eb96b8eb365f44675\transformed\lifecycle-livedata-2.6.2\res
+com.claros.finance.app-appcompat-1.7.0-9 C:\Users\kidkr\.gradle\caches\8.13\transforms\50ef18cf35f6eb8369ec672ef9aa26cf\transformed\appcompat-1.7.0\res
+com.claros.finance.app-fragment-1.5.4-10 C:\Users\kidkr\.gradle\caches\8.13\transforms\590667e003b4be326d0aa27cab43286f\transformed\fragment-1.5.4\res
+com.claros.finance.app-lifecycle-viewmodel-2.6.2-11 C:\Users\kidkr\.gradle\caches\8.13\transforms\5fc1c8a887e361587bb4a60447ec6b08\transformed\lifecycle-viewmodel-2.6.2\res
+com.claros.finance.app-activity-ktx-1.9.1-12 C:\Users\kidkr\.gradle\caches\8.13\transforms\60131a141ebe37b5ade1309bc0428148\transformed\activity-ktx-1.9.1\res
+com.claros.finance.app-transition-1.5.0-13 C:\Users\kidkr\.gradle\caches\8.13\transforms\63fdfe8c5660bc0b52ad5d79a7e36e57\transformed\transition-1.5.0\res
+com.claros.finance.app-appcompat-resources-1.7.0-14 C:\Users\kidkr\.gradle\caches\8.13\transforms\704cddc240b743f4e99d6d4c93aa9a78\transformed\appcompat-resources-1.7.0\res
+com.claros.finance.app-profileinstaller-1.3.1-15 C:\Users\kidkr\.gradle\caches\8.13\transforms\7f7efbf95ec947aea4665552908068d4\transformed\profileinstaller-1.3.1\res
+com.claros.finance.app-swiperefreshlayout-1.1.0-16 C:\Users\kidkr\.gradle\caches\8.13\transforms\8d78c778754b93a3f30ceb344fc7b63e\transformed\swiperefreshlayout-1.1.0\res
+com.claros.finance.app-recyclerview-1.1.0-17 C:\Users\kidkr\.gradle\caches\8.13\transforms\905205aac7192877d15c03ad0ab6e2c0\transformed\recyclerview-1.1.0\res
+com.claros.finance.app-lifecycle-livedata-core-2.6.2-18 C:\Users\kidkr\.gradle\caches\8.13\transforms\958f9892e9d4012ebed267d6835b337b\transformed\lifecycle-livedata-core-2.6.2\res
+com.claros.finance.app-lifecycle-runtime-2.6.2-19 C:\Users\kidkr\.gradle\caches\8.13\transforms\a1a06e1db686086ef99e30694862c7f1\transformed\lifecycle-runtime-2.6.2\res
+com.claros.finance.app-core-1.13.1-20 C:\Users\kidkr\.gradle\caches\8.13\transforms\a1c6c904a2411831598dcba027aa3456\transformed\core-1.13.1\res
+com.claros.finance.app-coordinatorlayout-1.1.0-21 C:\Users\kidkr\.gradle\caches\8.13\transforms\a3a86b779a9efb7de5aed95083db9ede\transformed\coordinatorlayout-1.1.0\res
+com.claros.finance.app-core-runtime-2.2.0-22 C:\Users\kidkr\.gradle\caches\8.13\transforms\a7a25c7c789703d9d0b6a43e77dbf0f4\transformed\core-runtime-2.2.0\res
+com.claros.finance.app-activity-1.9.1-23 C:\Users\kidkr\.gradle\caches\8.13\transforms\ab975892d364ede9e69123a7688f7cc5\transformed\activity-1.9.1\res
+com.claros.finance.app-lifecycle-viewmodel-savedstate-2.6.2-24 C:\Users\kidkr\.gradle\caches\8.13\transforms\b8b3c338a3860976a6d36d9673184529\transformed\lifecycle-viewmodel-savedstate-2.6.2\res
+com.claros.finance.app-lifecycle-viewmodel-ktx-2.6.2-25 C:\Users\kidkr\.gradle\caches\8.13\transforms\cc989613d9e6b34cec03e066d2c64bec\transformed\lifecycle-viewmodel-ktx-2.6.2\res
+com.claros.finance.app-emoji2-views-helper-1.3.0-26 C:\Users\kidkr\.gradle\caches\8.13\transforms\d8cfdaa75e09869edc2ea68faba48504\transformed\emoji2-views-helper-1.3.0\res
+com.claros.finance.app-drawerlayout-1.1.1-27 C:\Users\kidkr\.gradle\caches\8.13\transforms\dedd7280fa51e380e609aaaecdf4b20d\transformed\drawerlayout-1.1.1\res
+com.claros.finance.app-lifecycle-runtime-ktx-2.6.2-28 C:\Users\kidkr\.gradle\caches\8.13\transforms\e06e2a65d754e91768feea5bd3ef5789\transformed\lifecycle-runtime-ktx-2.6.2\res
+com.claros.finance.app-emoji2-1.3.0-29 C:\Users\kidkr\.gradle\caches\8.13\transforms\e0ac850cd9fc6f9e9c7a736e91c55a7c\transformed\emoji2-1.3.0\res
+com.claros.finance.app-annotation-experimental-1.4.0-30 C:\Users\kidkr\.gradle\caches\8.13\transforms\e6295ca73399b5ed0eb4ace461695407\transformed\annotation-experimental-1.4.0\res
+com.claros.finance.app-constraintlayout-2.1.4-31 C:\Users\kidkr\.gradle\caches\8.13\transforms\ec6b2d9c70f02d5141cdf4507937bd43\transformed\constraintlayout-2.1.4\res
+com.claros.finance.app-material-1.12.0-32 C:\Users\kidkr\.gradle\caches\8.13\transforms\f99d59e6434dafeea92913ad5fbafb11\transformed\material-1.12.0\res
+com.claros.finance.app-savedstate-ktx-1.2.1-33 C:\Users\kidkr\.gradle\caches\8.13\transforms\ff343315f540b1a646bb368166d9b0be\transformed\savedstate-ktx-1.2.1\res
+com.claros.finance.app-resValues-34 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\generated\res\resValues\debug
+com.claros.finance.app-updated_navigation_xml-35 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\generated\updated_navigation_xml\debug
+com.claros.finance.app-packageDebugResources-36 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.claros.finance.app-packageDebugResources-37 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.claros.finance.app-debug-38 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.claros.finance.app-debug-39 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\src\debug\res
+com.claros.finance.app-main-40 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\src\main\res

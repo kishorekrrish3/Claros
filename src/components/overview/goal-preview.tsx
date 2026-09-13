@@ -36,16 +36,16 @@ export function GoalPreview({ goals, currency, limit = 3 }: GoalPreviewProps) {
           const isCompleted = goal.progressPercent >= 100;
           
           return (
-            <div key={goal.id} className="flex flex-col gap-1.5">
+            <div key={goal.goalId} className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <div 
                     className={cn(
                       "w-1.5 h-1.5 rounded-full",
-                      isCompleted ? "bg-primary" : (goal.status === "on_track" ? "bg-positive" : goal.status === "behind" ? "bg-warning" : "bg-destructive")
+                      isCompleted ? "bg-primary" : goal.onTrack ? "bg-positive" : "bg-warning"
                     )}
                   />
-                  <span className="text-sm font-medium truncate">{goal.name}</span>
+                  <span className="text-sm font-medium truncate">{goal.goalName}</span>
                 </div>
                 <span className="text-xs text-muted-foreground tabular-nums">
                   {formatCurrency(Math.max(0, goal.targetAmount - goal.currentAmount), currency)} left

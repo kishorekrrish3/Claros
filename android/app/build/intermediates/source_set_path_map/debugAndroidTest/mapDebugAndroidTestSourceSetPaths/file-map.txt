@@ -1,0 +1,5 @@
+com.claros.finance.test.app-androidTest-0 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\generated\res\resValues\androidTest\debug
+com.claros.finance.test.app-updated_navigation_xml-1 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\generated\updated_navigation_xml\debugAndroidTest
+com.claros.finance.test.app-mergeDebugAndroidTestResources-2 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.claros.finance.test.app-mergeDebugAndroidTestResources-3 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.claros.finance.test.app-debugAndroidTest-4 D:\ACADEMICS\PROJECTS\FINANCE DASHBOARD\android\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

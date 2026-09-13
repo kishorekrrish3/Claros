@@ -26,6 +26,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { CURRENCIES, CurrencyCode } from "@/lib/constants";
+import { Smartphone, Download } from "lucide-react";
+import { usePWA } from "@/components/pwa/pwa-provider";
 
 interface SettingsContentProps {
   settings: UserSettings | null;
@@ -35,6 +37,7 @@ interface SettingsContentProps {
 export function SettingsContent({ settings, categories }: SettingsContentProps) {
   const { theme, setTheme } = useTheme();
   const [isUpdating, setIsUpdating] = useState(false);
+  const { isStandalone, installApp } = usePWA();
 
   const handleSettingChange = async (key: keyof UserSettings, value: any) => {
     if (!settings) return;
@@ -176,6 +179,37 @@ export function SettingsContent({ settings, categories }: SettingsContentProps) 
                   onCheckedChange={(val) => handleSettingChange("rolloverEnabled", val)}
                   disabled={isUpdating}
                 />
+              </div>
+            </section>
+
+            <section className="space-y-4 pt-6 border-t border-border/50">
+              <div className="flex items-start justify-between space-x-4 p-4 rounded-xl border border-primary/20 bg-primary/5">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Smartphone className="w-4 h-4 text-primary" />
+                    <h3 className="text-sm font-semibold text-foreground">Mobile App (PWA)</h3>
+                    {isStandalone && (
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                        Installed
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground max-w-md">
+                    {isStandalone
+                      ? "You are currently running Claros as an installed standalone app."
+                      : "Install Claros directly to your Android home screen. Full-screen, instant launch, and tactile haptics."}
+                  </p>
+                </div>
+                {!isStandalone && (
+                  <Button
+                    size="sm"
+                    onClick={installApp}
+                    className="shrink-0 flex items-center gap-1.5"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Install App
+                  </Button>
+                )}
               </div>
             </section>
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#09090B</color>
+    <color name="primary">#6366F1</color>
+    <color name="primary_dark">#4F46E5</color>
+    <color name="status_bar">#09090B</color>
+    <color name="surface">#18181B</color>
+    <color name="surface_border">#27272A</color>
+    <color name="text_primary">#FAFAFA</color>
+    <color name="text_secondary">#A1A1AA</color>
+    <string name="app_name">Claros</string>
+    <string name="no_internet_desc">Unable to reach Claros. Please check your internet connection and try again.</string>
+    <string name="no_internet_title">Connection Lost</string>
+    <string name="retry">Retry Connection</string>
+    <string name="server_url">https://claros-cyan.vercel.app/</string>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_claros_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Claros</item>
+    </style>
+    <style name="Theme.Claros" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+</resources>
