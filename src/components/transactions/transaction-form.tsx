@@ -28,6 +28,13 @@ interface TransactionFormProps {
   currency?: string
 }
 
+const PAYMENT_METHODS = [
+  { id: "upi", label: "📱 UPI" },
+  { id: "card", label: "💳 Card" },
+  { id: "cash", label: "💵 Cash" },
+  { id: "netbanking", label: "🏦 NetBank" },
+]
+
 export function TransactionForm({
   date,
   defaultDate,
@@ -55,8 +62,9 @@ export function TransactionForm({
   const [amount, setAmount] = useState("")
   const [merchant, setMerchant] = useState("")
   const [categoryId, setCategoryId] = useState(categories[0]?.id || "")
+  const [paymentMethod, setPaymentMethod] = useState("upi")
   const [isEssential, setIsEssential] = useState(false)
-  const [satisfaction, setSatisfaction] = useState<string>("neutral")
+  const [satisfaction, setSatisfaction] = useState<"love" | "fine" | "regret" | null>(null)
   const [note, setNote] = useState("")
   const [txDate, setTxDate] = useState(initialDateStr)
 
@@ -80,16 +88,26 @@ export function TransactionForm({
 
     setLoading(true)
     try {
-      await createTransaction({
+      const pmLabel = PAYMENT_METHODS.find((p) => p.id === paymentMethod)?.label || ""
+      const combinedNote = note.trim()
+        ? `[${pmLabel}] ${note.trim()}`
+        : `[${pmLabel}]`
+
+      const res = await createTransaction({
         amount: Number(amount),
         merchant: merchant.trim(),
-        categoryId: categoryId || (categories[0]?.id ?? ""),
+        categoryId: type === "expense" ? (categoryId || categories[0]?.id || null) : null,
         date: new Date(txDate),
         essential: isEssential,
-        satisfaction: expandedOptions ? satisfaction : null,
-        note: expandedOptions ? note.trim() : null,
+        satisfaction: satisfaction,
+        note: combinedNote,
         type: type,
       })
+
+      if (!res.success) {
+        toast.error(res.error || "Failed to log entry")
+        return
+      }
 
       toast.success("Entry logged successfully!")
 
@@ -97,10 +115,8 @@ export function TransactionForm({
       setAmount("")
       setMerchant("")
       setNote("")
-      if (expandedOptions) {
-        setIsEssential(false)
-        setSatisfaction("neutral")
-      }
+      setIsEssential(false)
+      setSatisfaction(null)
 
       if (onSuccess) {
         onSuccess()
@@ -202,39 +218,39 @@ export function TransactionForm({
           onClick={() => setType("expense")}
           className={`flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md transition-all ${
             type === "expense"
-              ? "bg-background text-foreground shadow-sm"
+              ? "bg-background text-rose-600 dark:text-rose-400 font-semibold shadow-xs"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          <ArrowUpRight className="w-3.5 h-3.5 text-rose-500" /> Expense
+          <ArrowUpRight className="w-3.5 h-3.5" /> Expense
         </button>
         <button
           type="button"
           onClick={() => setType("income")}
           className={`flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md transition-all ${
             type === "income"
-              ? "bg-background text-foreground shadow-sm"
+              ? "bg-background text-emerald-600 dark:text-emerald-400 font-semibold shadow-xs"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          <ArrowDownRight className="w-3.5 h-3.5 text-emerald-500" /> Income
+          <ArrowDownRight className="w-3.5 h-3.5" /> Income
         </button>
         <button
           type="button"
           onClick={() => setType("transfer")}
           className={`flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-md transition-all ${
             type === "transfer"
-              ? "bg-background text-foreground shadow-sm"
+              ? "bg-background text-blue-600 dark:text-blue-400 font-semibold shadow-xs"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          <Repeat className="w-3.5 h-3.5 text-blue-500" /> Transfer
+          <Repeat className="w-3.5 h-3.5" /> Transfer
         </button>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label className="text-xs">Amount</Label>
+          <Label className="text-xs">Amount ({currency})</Label>
           <Input
             type="number"
             step="0.01"
@@ -242,7 +258,7 @@ export function TransactionForm({
             placeholder="0.00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="tabular-nums font-semibold text-lg"
+            className="tabular-nums font-bold text-lg"
             autoFocus
             disabled={loading}
           />
@@ -269,6 +285,27 @@ export function TransactionForm({
         />
       </div>
 
+      {/* Payment Method Selection */}
+      <div className="space-y-1.5">
+        <Label className="text-xs">Payment Method</Label>
+        <div className="flex items-center gap-1.5 overflow-x-auto">
+          {PAYMENT_METHODS.map((pm) => (
+            <button
+              key={pm.id}
+              type="button"
+              onClick={() => setPaymentMethod(pm.id)}
+              className={`text-xs px-3 py-1.5 rounded-md transition-all font-medium border ${
+                paymentMethod === pm.id
+                  ? "border-primary bg-primary/10 text-primary font-semibold shadow-xs"
+                  : "border-border/50 bg-background/50 text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {pm.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Quick Category Chips */}
       {type === "expense" && categories.length > 0 && (
         <div className="space-y-1.5">
@@ -283,7 +320,7 @@ export function TransactionForm({
                   onClick={() => setCategoryId(c.id)}
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all border ${
                     isSelected
-                      ? "border-primary bg-primary/10 text-primary shadow-sm"
+                      ? "border-primary bg-primary/10 text-primary shadow-xs"
                       : "border-border/60 bg-muted/30 text-muted-foreground hover:bg-muted/80 hover:text-foreground"
                   }`}
                 >
@@ -299,6 +336,46 @@ export function TransactionForm({
           </div>
         </div>
       )}
+
+      {/* Mindful Satisfaction Rating */}
+      <div className="space-y-1.5">
+        <Label className="text-xs">Mindful Spending Rating</Label>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setSatisfaction(satisfaction === "love" ? null : "love")}
+            className={`flex-1 text-xs py-1.5 px-2 rounded-md border flex items-center justify-center gap-1 font-medium transition-all ${
+              satisfaction === "love"
+                ? "border-emerald-500 bg-emerald-500/10 text-emerald-600 font-semibold"
+                : "border-border/50 bg-background/50 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            😍 Loved
+          </button>
+          <button
+            type="button"
+            onClick={() => setSatisfaction(satisfaction === "fine" ? null : "fine")}
+            className={`flex-1 text-xs py-1.5 px-2 rounded-md border flex items-center justify-center gap-1 font-medium transition-all ${
+              satisfaction === "fine"
+                ? "border-blue-500 bg-blue-500/10 text-blue-600 font-semibold"
+                : "border-border/50 bg-background/50 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            🙂 Okay
+          </button>
+          <button
+            type="button"
+            onClick={() => setSatisfaction(satisfaction === "regret" ? null : "regret")}
+            className={`flex-1 text-xs py-1.5 px-2 rounded-md border flex items-center justify-center gap-1 font-medium transition-all ${
+              satisfaction === "regret"
+                ? "border-rose-500 bg-rose-500/10 text-rose-600 font-semibold"
+                : "border-border/50 bg-background/50 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            😒 Regret
+          </button>
+        </div>
+      </div>
 
       {/* Essential expense toggle */}
       <div className="flex items-center justify-between p-3 border border-border/50 rounded-lg bg-muted/20">
@@ -325,11 +402,10 @@ export function TransactionForm({
             Cancel
           </Button>
         )}
-        <Button type="submit" className="flex-1" disabled={loading || !amount || !merchant}>
+        <Button type="submit" className="flex-1 font-semibold" disabled={loading || !amount || !merchant}>
           {loading ? "Saving..." : "Log Entry"}
         </Button>
       </div>
     </form>
   )
 }
-

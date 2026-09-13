@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { getUserSettings, getMonthlyBudgetData, getCategories } from "@/actions/budget";
 import { getTransactions } from "@/actions/transactions";
 import { getGoals } from "@/actions/goals";
-import { getConnectedBankAccounts } from "@/actions/bank-sync";
 import { 
   calculateMonthlyBudget, 
   calculateSpent, 
@@ -30,13 +29,12 @@ export default async function OverviewPage({ searchParams }: PageProps) {
   const monthParam = searchParams.month;
   const currentMonth = monthParam || format(new Date(), "yyyy-MM");
   
-  const [settings, monthlyBudgetData, rawTransactions, categories, goalsData, bankAccounts] = await Promise.all([
+  const [settings, monthlyBudgetData, rawTransactions, categories, goalsData] = await Promise.all([
     getUserSettings(),
     getMonthlyBudgetData(currentMonth),
     getTransactions({ month: currentMonth }),
     getCategories(),
     getGoals(),
-    getConnectedBankAccounts(),
   ]);
 
   const currency: CurrencyCode = (settings?.currency as CurrencyCode) || "INR";
@@ -136,7 +134,6 @@ export default async function OverviewPage({ searchParams }: PageProps) {
       currentMonth={currentMonth}
       currency={currency}
       categories={categories}
-      bankAccounts={bankAccounts}
       
       safeToSpendAmount={safeToSpendResult.amount}
       safeToSpendRemaining={safeToSpendResult.remaining}

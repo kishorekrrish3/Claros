@@ -4,8 +4,6 @@ import { CurrencyCode } from "@/lib/constants";
 import { MonthNavigator } from "./month-navigator";
 import { SafeToSpendHero } from "./safe-to-spend-hero";
 import { QuickEntryBar } from "./quick-entry-bar";
-import { BankSyncHub } from "@/components/bank-sync/bank-sync-hub";
-import { BankAccount } from "@/actions/bank-sync";
 import { MetricGrid } from "./metric-grid";
 import { BudgetPace } from "./budget-pace";
 import { WeekMiniChart, DailySpending } from "./week-mini-chart";
@@ -25,7 +23,6 @@ interface OverviewContentProps {
   currentMonth: string;
   currency: CurrencyCode;
   categories?: Category[];
-  bankAccounts?: BankAccount[];
   
   // Calculated metrics
   safeToSpendAmount: number;
@@ -52,7 +49,6 @@ export function OverviewContent({
   currentMonth,
   currency,
   categories = [],
-  bankAccounts = [],
   safeToSpendAmount,
   safeToSpendRemaining,
   safeToSpendExplanation,
@@ -85,11 +81,6 @@ export function OverviewContent({
 
         <QuickEntryBar 
           categories={categories}
-          currency={currency}
-        />
-
-        <BankSyncHub 
-          initialAccounts={bankAccounts}
           currency={currency}
         />
         
@@ -140,5 +131,6 @@ export function OverviewContent({
     </div>
   );
 }
+
 
 
