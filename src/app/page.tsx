@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { getUserSettings, getMonthlyBudgetData, getCategories } from "@/actions/budget";
 import { getTransactions } from "@/actions/transactions";
 import { getGoals } from "@/actions/goals";
+import { getConnectedBankAccounts } from "@/actions/bank-sync";
 import { 
   calculateMonthlyBudget, 
   calculateSpent, 
@@ -29,29 +30,14 @@ export default async function OverviewPage({ searchParams }: PageProps) {
   const monthParam = searchParams.month;
   const currentMonth = monthParam || format(new Date(), "yyyy-MM");
   
-  const [settings, monthlyBudgetData, rawTransactions, categories, goalsData] = await Promise.all([
+  const [settings, monthlyBudgetData, rawTransactions, categories, goalsData, bankAccounts] = await Promise.all([
     getUserSettings(),
     getMonthlyBudgetData(currentMonth),
     getTransactions({ month: currentMonth }),
     getCategories(),
     getGoals(),
+    getConnectedBankAccounts(),
   ]);
-
-  const hasData = monthlyBudgetData.incomeSources.length > 0 || monthlyBudgetData.fixedExpenses.length > 0 || rawTransactions.length > 0;
-  
-  if (!hasData) {
-    return (
-      <div className="max-w-md mx-auto mt-20 p-6 text-center animate-fade-in">
-        <h1 className="text-2xl font-bold mb-4">Welcome to Claros</h1>
-        <p className="text-muted-foreground mb-8">
-          Your personal finance journey begins here. Let&apos;s set up your first budget and add some income to get started.
-        </p>
-        <Button asChild>
-          <Link href="/settings">Go to Settings</Link>
-        </Button>
-      </div>
-    );
-  }
 
   const currency: CurrencyCode = (settings?.currency as CurrencyCode) || "INR";
   
@@ -150,6 +136,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
       currentMonth={currentMonth}
       currency={currency}
       categories={categories}
+      bankAccounts={bankAccounts}
       
       safeToSpendAmount={safeToSpendResult.amount}
       safeToSpendRemaining={safeToSpendResult.remaining}
