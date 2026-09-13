@@ -1,0 +1,14 @@
+services:
+  claros:
+    build: .
+    container_name: claros
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./receipts:/app/public/receipts
+    environment:
+      - DATABASE_URL=file:/app/data/claros.db
+      - RECEIPT_STORAGE_PATH=/app/public/receipts
+      - NODE_ENV=production

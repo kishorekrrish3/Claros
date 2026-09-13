@@ -1,0 +1,175 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Application Settings ────────────────────────────────────────────────────
+
+model UserSettings {
+  id                 String   @id @default("default")
+  currency           String   @default("INR")
+  theme              String   @default("system")
+  monthlyBudget      Float    @default(0)
+  rolloverEnabled    Boolean  @default(false)
+  rolloverAmount     Float    @default(0)
+  includeTodayInDays Boolean  @default(true)
+  receiptStoragePath String   @default("./public/receipts")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// ─── Income & Expenses ───────────────────────────────────────────────────────
+
+model IncomeSource {
+  id        String    @id @default(cuid())
+  name      String
+  amount    Float
+  category  String    @default("Salary")
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  active    Boolean   @default(true)
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model FixedExpense {
+  id         String    @id @default(cuid())
+  name       String
+  amount     Float
+  category   String    @default("Bills")
+  dayOfMonth Int       @default(1)
+  startDate  DateTime  @default(now())
+  endDate    DateTime?
+  active     Boolean   @default(true)
+  notes      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model SavingsAllocation {
+  id        String   @id @default(cuid())
+  name      String
+  amount    Float
+  type      String   @default("fixed") // "fixed" | "percentage"
+  active    Boolean  @default(true)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Categories ──────────────────────────────────────────────────────────────
+
+model Category {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  icon         String?
+  color        String        @default("#6366f1")
+  type         String        @default("expense") // "expense" | "income"
+  sortOrder    Int           @default(0)
+  active       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+}
+
+// ─── Transactions ────────────────────────────────────────────────────────────
+
+model Transaction {
+  id           String    @id @default(cuid())
+  date         DateTime
+  amount       Float
+  type         String    @default("expense") // "expense" | "income" | "transfer"
+  categoryId   String?
+  category     Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  merchant     String
+  note         String?
+  essential    Boolean   @default(false)
+  satisfaction String?   // "love" | "fine" | "regret"
+  receiptPath  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([date])
+  @@index([categoryId])
+  @@index([type])
+  @@index([date, type])
+}
+
+// ─── Savings Goals ───────────────────────────────────────────────────────────
+
+model SavingsGoal {
+  id                  String                @id @default(cuid())
+  name                String
+  targetAmount        Float
+  currentAmount       Float                 @default(0)
+  targetDate          DateTime?
+  monthlyContribution Float                 @default(0)
+  status              String                @default("active") // "active" | "paused" | "completed"
+  color               String                @default("#6366f1")
+  notes               String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  contributions       SavingsContribution[]
+}
+
+model SavingsContribution {
+  id        String      @id @default(cuid())
+  goalId    String
+  goal      SavingsGoal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  amount    Float
+  date      DateTime    @default(now())
+  note      String?
+  createdAt DateTime    @default(now())
+
+  @@index([goalId])
+  @@index([date])
+}
+
+// ─── Monthly Overrides ───────────────────────────────────────────────────────
+
+model MonthlyOverride {
+  id         String   @id @default(cuid())
+  sourceType String   // "income" | "fixedExpense" | "savingsAllocation"
+  sourceId   String
+  month      String   // "YYYY-MM" format
+  amount     Float
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@unique([sourceType, sourceId, month])
+  @@index([month])
+  @@index([sourceType, sourceId])
+}
+
+// ─── Day Metadata ────────────────────────────────────────────────────────────
+
+model DayMetadata {
+  id    String   @id @default(cuid())
+  date  DateTime @unique
+  emoji String?
+  note  String?
+
+  @@index([date])
+}
+
+// ─── Monthly Snapshots (historical preservation) ─────────────────────────────
+
+model MonthlySnapshot {
+  id            String   @id @default(cuid())
+  month         String   @unique // "YYYY-MM"
+  totalIncome   Float
+  totalExpenses Float
+  totalSavings  Float
+  rollover      Float    @default(0)
+  endBalance    Float    @default(0)
+  calculatedAt  DateTime @default(now())
+
+  @@index([month])
+}

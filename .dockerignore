@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+data/*.db
+data/*.db-journal
+public/receipts/*
+!public/receipts/.gitkeep
+.env
+.env.local
+.env*.local
+npm-debug.log*
