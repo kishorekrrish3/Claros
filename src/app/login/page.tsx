@@ -1,16 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { loginAction } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LockIcon, Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
-import { auth, GoogleAuthProvider, signInWithPopup } from "@/lib/firebase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,32 +16,23 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      
-      // Get the ID token
-      const idToken = await result.user.getIdToken();
-      
-      // Send to server
-      const res = await loginAction(idToken);
-      
-      if (res.success) {
-        toast.success("Welcome back to Claros");
-        router.push("/");
-        router.refresh();
-      } else {
-        setError(res.error || "Authentication failed");
-        toast.error(res.error || "Authentication failed");
-        setIsLoading(false);
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        throw error;
       }
+      
+      // The browser will redirect to Google's consent screen.
     } catch (err: any) {
       console.error(err);
-      if (err.code === "auth/popup-closed-by-user") {
-        setError("Sign-in cancelled");
-      } else {
-        setError("An unexpected error occurred during sign-in.");
-        toast.error("Failed to connect to Google.");
-      }
+      setError("An unexpected error occurred during sign-in.");
+      toast.error("Failed to connect to Google.");
       setIsLoading(false);
     }
   };
