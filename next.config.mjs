@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
-  serverExternalPackages: ["jspdf"],
+  output: process.env.DOCKER_BUILD ? "standalone" : undefined,
+  experimental: {
+    serverComponentsExternalPackages: ["jspdf", "@libsql/client"],
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
