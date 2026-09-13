@@ -22,9 +22,18 @@ export function WhatIfSimulator({
   const [reduction, setReduction] = useState<number[]>([0]);
 
   const savingsAmount = reduction[0];
-  const newProjections = goals.map((goal) =>
-    calculateWhatIf(goal, savingsAmount / goals.length) // distribute savings evenly
-  );
+  const whatIfResult = calculateWhatIf({
+    currentMonthlySpending,
+    proposedMonthlySpending: Math.max(currentMonthlySpending - savingsAmount, 0),
+    monthlyIncome: currentMonthlySpending,
+    goals: goals.map((g) => ({
+      id: g.id,
+      name: g.name,
+      targetAmount: g.targetAmount,
+      currentAmount: g.currentAmount,
+      monthlyContribution: g.monthlyContribution,
+    })),
+  });
 
   return (
     <div className="border border-border/50 rounded-xl p-6 bg-card/50">
@@ -59,8 +68,8 @@ export function WhatIfSimulator({
             <div className="space-y-3">
               {goals.map((goal, i) => {
                 const orig = projections[i];
-                const updated = newProjections[i];
-                const monthsSaved = orig.monthsToGoal - updated.monthsToGoal;
+                const updated = whatIfResult.goals[i];
+                const monthsSaved = updated?.monthsSaved ?? 0;
 
                 return (
                   <div key={goal.id} className="flex justify-between items-center text-sm bg-background p-3 rounded-lg border border-border/50">
@@ -73,13 +82,13 @@ export function WhatIfSimulator({
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-muted-foreground line-through decoration-muted-foreground/50">
-                        {orig.projectedDate
-                          ? format(orig.projectedDate, "MMM yyyy")
+                        {orig?.projectedCompletionDate
+                          ? format(orig.projectedCompletionDate, "MMM yyyy")
                           : "Never"}
                       </span>
                       <span className="font-medium text-foreground">
-                        {updated.projectedDate
-                          ? format(updated.projectedDate, "MMM yyyy")
+                        {updated?.newDate
+                          ? format(updated.newDate, "MMM yyyy")
                           : "Never"}
                       </span>
                       {monthsSaved > 0 && (

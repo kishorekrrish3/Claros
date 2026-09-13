@@ -44,7 +44,7 @@ export function GoalCard({ goal, projection, currency, onEdit }: GoalCardProps) 
 
     setIsSubmitting(true);
     try {
-      await addContribution(goal.id, numAmount, note);
+      await addContribution({ goalId: goal.id, amount: numAmount, note });
       toast.success("Contribution added");
       setAmount("");
       setNote("");
@@ -56,7 +56,7 @@ export function GoalCard({ goal, projection, currency, onEdit }: GoalCardProps) 
     }
   };
 
-  const statusColor = projection.isOnTrack ? "bg-emerald-500" : projection.monthsRemaining > 24 ? "bg-red-500" : "bg-amber-500";
+  const statusColor = projection?.onTrack ? "bg-emerald-500" : (projection?.monthsRemaining ?? 0) > 24 ? "bg-red-500" : "bg-amber-500";
 
   return (
     <div className="border border-border/50 rounded-xl p-5 bg-card flex flex-col justify-between">
@@ -75,7 +75,7 @@ export function GoalCard({ goal, projection, currency, onEdit }: GoalCardProps) 
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <div className={cn("w-2 h-2 rounded-full", statusColor)} />
               <span>
-                {projection.isOnTrack
+                {projection?.onTrack
                   ? "On track"
                   : "Behind schedule"}
               </span>

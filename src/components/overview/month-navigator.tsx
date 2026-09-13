@@ -1,46 +1,63 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { format, addMonths, subMonths, parse } from "date-fns";
 
 interface MonthNavigatorProps {
-  currentMonth: string; // YYYY-MM
+  currentMonth?: string | number;
+  currentYear?: number;
+  onChange?: (year: number, month: number) => void;
 }
 
-export function MonthNavigator({ currentMonth }: MonthNavigatorProps) {
+export function MonthNavigator({ currentMonth, currentYear, onChange }: MonthNavigatorProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  // Safely derive YYYY-MM string
+  let monthStr = format(new Date(), "yyyy-MM");
+  if (typeof currentMonth === "string" && /^\d{4}-\d{2}$/.test(currentMonth)) {
+    monthStr = currentMonth;
+  } else if (typeof currentMonth === "number" && typeof currentYear === "number") {
+    monthStr = `${currentYear}-${String(currentMonth).padStart(2, "0")}`;
+  } else if (typeof currentMonth === "number") {
+    const y = currentYear || new Date().getFullYear();
+    monthStr = `${y}-${String(currentMonth).padStart(2, "0")}`;
+  }
+
+  const navigateToMonth = (targetMonthStr: string) => {
+    if (onChange) {
+      const [y, m] = targetMonthStr.split("-").map(Number);
+      onChange(y, m);
+    } else {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("month", targetMonthStr);
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  };
 
   const handlePrevious = () => {
-    const date = parse(currentMonth, "yyyy-MM", new Date());
+    const date = parse(monthStr, "yyyy-MM", new Date());
     const prev = format(subMonths(date, 1), "yyyy-MM");
-    
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("month", prev);
-    router.push(`/?${params.toString()}`);
+    navigateToMonth(prev);
   };
 
   const handleNext = () => {
-    const date = parse(currentMonth, "yyyy-MM", new Date());
+    const date = parse(monthStr, "yyyy-MM", new Date());
     const next = format(addMonths(date, 1), "yyyy-MM");
-    
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("month", next);
-    router.push(`/?${params.toString()}`);
+    navigateToMonth(next);
   };
 
   const handleToday = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("month", format(new Date(), "yyyy-MM"));
-    router.push(`/?${params.toString()}`);
+    const todayStr = format(new Date(), "yyyy-MM");
+    navigateToMonth(todayStr);
   };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input or textarea
       if (
         document.activeElement?.tagName === "INPUT" ||
         document.activeElement?.tagName === "TEXTAREA"
@@ -57,9 +74,9 @@ export function MonthNavigator({ currentMonth }: MonthNavigatorProps) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentMonth, searchParams, router]);
+  }, [monthStr, searchParams, router, pathname]);
 
-  const displayDate = parse(currentMonth, "yyyy-MM", new Date());
+  const displayDate = parse(monthStr, "yyyy-MM", new Date());
   
   return (
     <div className="flex items-center justify-between py-4 border-b border-border/30 mb-8">
