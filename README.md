@@ -1,10 +1,18 @@
-# Claros
+<div align="center">
+  <h1>Claros</h1>
+  <p><strong>Know what you can safely spend today.</strong></p>
+  <p>A local-first personal finance workspace for daily spending clarity, transaction tracking, savings goals, and practical financial insights.</p>
+  <p>
+    <img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" alt="Next.js">
+    <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
+    <img src="https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white" alt="SQLite">
+    <img src="https://img.shields.io/badge/Privacy-Local--first-2ea44f" alt="Local-first">
+  </p>
+</div>
 
-**Know what you can safely spend today.**
+Claros is a self-hosted personal finance app built around one daily question: *How much can I safely spend today?* Its local SQLite workflow is designed to keep core financial records under your control. Optional integrations and deployment modes should be reviewed separately before assuming that every configuration is fully offline.
 
-Claros is a self-hosted personal finance app that answers one question every day: *How much can I safely spend today?* It runs entirely on your machine — no cloud accounts, no external APIs, no telemetry.
 
-(overview screenshot placeholder)
 
 ## Features
 
@@ -24,8 +32,8 @@ Claros is a self-hosted personal finance app that answers one question every day
 
 ```bash
 # Clone the repository
-git clone <repo-url> claros
-cd claros
+git clone https://github.com/kishorekrrish3/Claros.git
+cd Claros
 
 # Start with Docker Compose
 docker-compose up -d
@@ -34,7 +42,7 @@ docker-compose up -d
 open http://localhost:3000
 ```
 
-Your data is stored in `./data/claros.db` and persists across container restarts.
+Your data is stored in `./data/claros.db` and persists across container restarts. Back up this file or use the app's export tools before making infrastructure changes.
 
 ### Local Development
 
